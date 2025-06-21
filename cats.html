@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat Lovers Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background-size: cover;
+      background-position: center;
+      animation: slide 30s infinite;
+    }
+
+    @keyframes slide {
+      0% { background-image: url('https://placekitten.com/1200/800'); }
+      33% { background-image: url('https://placekitten.com/1201/800'); }
+      66% { background-image: url('https://placekitten.com/1202/800'); }
+      100% { background-image: url('https://placekitten.com/1200/800'); }
+    }
+
+    .glass-container {
+      width: 90%;
+      max-width: 400px;
+      margin: 5% auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      color: white;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: gold;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    input, select {
+      background: white;
+      color: green;
+    }
+
+    button {
+      background: gold;
+      color: green;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #feedback {
+      font-size: 0.9em;
+      color: red;
+    }
+
+    #hoverText {
+      margin-top: 20px;
+      text-align: center;
+      padding: 10px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-container">
+    <h2>Cat Lovers Login</h2>
+    <form id="loginForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+      <span id="emailFeedback"></span>
+
+      <label for="password">Create Password:</label>
+      <input type="password" id="password" required>
+      <span id="passwordFeedback"></span>
+
+      <button type="submit">Login</button>
+    </form>
+
+    <h2>Cat Ownership</h2>
+    <form id="catForm">
+      <label for="ownCat">Do you own a cat?</label>
+      <select id="ownCat" required>
+        <option value="">Select</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+
+      <div id="catTypeContainer" style="display:none;">
+        <label for="catType">Type of Cat:</label>
+        <input type="text" id="catType">
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div id="hoverText">Hover over me to see a cat fact!</div>
+  </div>
+
+  <script>
+    // Login form validation
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailFeedback = document.getElementById('emailFeedback');
+    const passwordFeedback = document.getElementById('passwordFeedback');
+
+    emailInput.addEventListener('input', () => {
+      if (!emailInput.value.includes('@')) {
+        emailFeedback.textContent = 'Invalid email';
+      } else {
+        emailFeedback.textContent = '';
+      }
+    });
+
+    passwordInput.addEventListener('input', () => {
+      const strong = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+      if (!strong.test(passwordInput.value)) {
+        passwordFeedback.textContent = 'Weak password (Min 8 chars, 1 number, 1 uppercase)';
+      } else {
+        passwordFeedback.textContent = '';
+      }
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (emailFeedback.textContent || passwordFeedback.textContent) {
+        alert('Fix form errors before submitting.');
+      } else {
+        alert('Login successful!');
+      }
+    });
+
+    // Cat form dynamic field
+    const ownCatSelect = document.getElementById('ownCat');
+    const catTypeContainer = document.getElementById('catTypeContainer');
+
+    ownCatSelect.addEventListener('change', () => {
+      catTypeContainer.style.display = ownCatSelect.value === 'yes' ? 'block' : 'none';
+    });
+
+    document.getElementById('catForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const ownCat = ownCatSelect.value;
+      const catType = document.getElementById('catType').value;
+      if (ownCat === 'yes' && !catType) {
+        alert('Please specify the type of cat.');
+      } else {
+        alert('Thank you for your submission!');
+      }
+    });
+
+    // onmouseover example
+    const hoverText = document.getElementById('hoverText');
+    hoverText.addEventListener('mouseover', () => {
+      hoverText.textContent = 'Cats sleep for 70% of their lives!';
+    });
+    hoverText.addEventListener('mouseout', () => {
+      hoverText.textContent = 'Hover over me to see a cat fact!';
+    });
+  </script>
+</body>
+</html>
